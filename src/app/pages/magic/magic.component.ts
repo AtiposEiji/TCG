@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [],
   templateUrl: './magic.component.html',
-  styleUrl: './magic.component.css'
+  styleUrl: './magic.component.scss'
 })
 export class MagicComponent implements OnInit {
   protected magicSets?: MagicSetModel[];

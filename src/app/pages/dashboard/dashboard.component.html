@@ -1,4 +1,5 @@
-<div>
+<div class="container">
+  <h1 class="text-3xl text-center">TCG</h1>
   @for (tcg of tcgList; track tcg.id) {
     <div (click)="onTCGClick(tcg.link)">
       {{ tcg.name }}

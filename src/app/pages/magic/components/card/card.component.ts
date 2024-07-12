@@ -8,7 +8,7 @@ import {MagicCard} from "../../models/magic-card.model";
   standalone: true,
   imports: [],
   templateUrl: './card.component.html',
-  styleUrl: './card.component.css'
+  styleUrl: './card.component.scss'
 })
 export class CardComponent implements OnInit {
   protected cards?: MagicCard[];
