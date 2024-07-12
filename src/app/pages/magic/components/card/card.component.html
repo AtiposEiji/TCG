@@ -1,0 +1,5 @@
+<div>
+  @for (card of cards; track card.id) {
+    <img [src]="card.image_uris?.normal" [alt]="card.name"/>
+  }
+</div>

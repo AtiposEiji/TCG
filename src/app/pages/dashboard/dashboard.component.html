@@ -1,0 +1,7 @@
+<div>
+  @for (tcg of tcgList; track tcg.id) {
+    <div (click)="onTCGClick(tcg.link)">
+      {{ tcg.name }}
+    </div>
+  }
+</div>

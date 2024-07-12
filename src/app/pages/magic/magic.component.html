@@ -1,0 +1,7 @@
+<div>
+  @for (set of magicSets; track set.id) {
+    <div (click)="onCardClick(set)">
+      {{ set.name }}
+    </div>
+  }
+</div>

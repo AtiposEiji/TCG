@@ -6,5 +6,11 @@ export const routes: Routes = [{
   pathMatch: 'full'
 }, {
   path: 'dashboard',
-  loadComponent: () => import('./components/dashboard/dashboard.component').then(c => c.DashboardComponent)
+  loadComponent: () => import('./pages/dashboard/dashboard.component').then(c => c.DashboardComponent)
+}, {
+  path: "magic",
+  loadComponent: () => import('./pages/magic/magic.component').then(c => c.MagicComponent),
+}, {
+    path: "magic/:magicSetId",
+    loadComponent: () => import("./pages/magic/components/card/card.component").then(c => c.CardComponent)
 }];
