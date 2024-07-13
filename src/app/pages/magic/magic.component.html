@@ -1,7 +1,23 @@
 <div>
+  <div (click)="goBack()"
+       class="cursor-pointer p-2 mb-3 bg-surface-mixed-400 rounded-xl w-max hover:text-primary-600 text-center">
+    GO BACK
+  </div>
+  <h1 class="text-3xl text-center text-primary-600 mb-6">SETS</h1>
+  <div class="flex items-center mb-6">
+    <p class="mr-2">Filter by set: </p>
+    <input [(ngModel)]="searchTermSet"
+           class="rounded-xl p-2"
+           placeholder="Search by name"/>
+  </div>
   @for (set of magicSets; track set.id) {
-    <div (click)="onCardClick(set)">
-      {{ set.name }}
-    </div>
+    @if (onFilter(set, searchTermSet)) {
+      <div class="mb-6">
+        <div (click)="onCardClick(set)"
+             class="mb-3 cursor-pointer p-2 bg-surface-mixed-400 rounded-xl w-max hover:text-primary-600">
+          {{ set.name }}
+        </div>
+      </div>
+    }
   }
 </div>

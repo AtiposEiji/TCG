@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MagicTcgService} from "../../services/magic-tcg.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MagicCard} from "../../models/magic-card.model";
 
 @Component({
@@ -11,11 +11,15 @@ import {MagicCard} from "../../models/magic-card.model";
   styleUrl: './card.component.scss'
 })
 export class CardComponent implements OnInit {
-  protected cards?: MagicCard[];
+  protected displayedCards?: MagicCard[];
   protected magicSetId!: string | null;
+  private cards?: MagicCard[];
   private searchURI?: string;
   private magicTcgService = inject(MagicTcgService);
+  private currentIndex: number = 0;
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
 
   constructor() {
     this.magicSetId = this.activatedRoute.snapshot.paramMap.get('magicSetId');
@@ -41,6 +45,42 @@ export class CardComponent implements OnInit {
       return;
     }
     const res = await this.magicTcgService.getMagicCardsList(this.searchURI);
-    this.cards = res.data;
+    const uniqueCards: MagicCard[] = [];
+    const seenIds = new Set();
+
+    for (const card of res.data) {
+      if (!seenIds.has(card.name)) {
+        uniqueCards.push(card);
+        seenIds.add(card.name);
+      }
+    }
+
+    this.cards = uniqueCards;
+    this.updateDisplayedCards();
+  }
+
+  private updateDisplayedCards(): void {
+    if (!this.cards) {
+      return;
+    }
+    this.displayedCards = this.cards.slice(this.currentIndex, this.currentIndex + 18);
+  }
+
+  protected onPrevious(): void {
+    if (this.currentIndex > 0) {
+      this.currentIndex -= 18;
+      this.updateDisplayedCards();
+    }
+  }
+
+  protected onNext(): void {
+    if (this.cards && this.currentIndex < this.cards.length - 18) {
+      this.currentIndex += 18;
+      this.updateDisplayedCards();
+    }
+  }
+
+  protected goBack(): Promise<boolean> {
+    return this.router.navigate([`magic`]);
   }
 }

@@ -1,5 +1,25 @@
 <div>
-  @for (card of cards; track card.id) {
-    <img [src]="card.image_uris?.normal" [alt]="card.name"/>
-  }
+  <div (click)="goBack()"
+       class="cursor-pointer p-2 mb-3 bg-surface-mixed-400 rounded-xl w-max hover:text-primary-600 text-center">
+    GO BACK
+  </div>
+  <h1 class="text-3xl text-center text-primary-600 mb-6">CARDS</h1>
+  <div class="grid grid-cols-6 gap-2">
+    @for (card of displayedCards; track card.id) {
+      <div class="flex flex-col">
+        <img [src]="card.image_uris?.normal" [alt]="card.name"/>
+      </div>
+    }
+  </div>
+  <div class="flex justify-center w-full mt-6">
+    <div (click)="onPrevious()"
+         class="mr-3 cursor-pointer p-2 bg-surface-mixed-400 rounded-xl w-full hover:text-primary-600 text-center">
+      PREVIOUS
+    </div>
+    <div (click)="onNext()"
+         class="cursor-pointer p-2 bg-surface-mixed-400 rounded-xl w-full hover:text-primary-600 text-center">
+      NEXT
+    </div>
+  </div>
+
 </div>

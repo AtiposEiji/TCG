@@ -11,6 +11,6 @@ export const routes: Routes = [{
   path: "magic",
   loadComponent: () => import('./pages/magic/magic.component').then(c => c.MagicComponent),
 }, {
-    path: "magic/:magicSetId",
+    path: "magic/set/:magicSetId",
     loadComponent: () => import("./pages/magic/components/card/card.component").then(c => c.CardComponent)
 }];
