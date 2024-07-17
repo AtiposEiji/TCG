@@ -2,6 +2,8 @@ import {Component, inject, OnInit} from '@angular/core';
 import {MagicTcgService} from "../../services/magic-tcg.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MagicCard} from "../../models/magic-card.model";
+import {MagicStoreService} from "../../services/magic-store.service";
+import {MagicSetModel} from "../../models/magic-set.model";
 
 @Component({
   selector: 'app-card',
@@ -15,8 +17,10 @@ export class CardComponent implements OnInit {
   protected magicSetId!: string | null;
   private cards?: MagicCard[];
   private searchURI?: string;
-  private magicTcgService = inject(MagicTcgService);
   private currentIndex: number = 0;
+  private filteredSet?: MagicSetModel;
+  private readonly magicStoreService = inject(MagicStoreService);
+  private readonly magicTcgService = inject(MagicTcgService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -35,9 +39,18 @@ export class CardComponent implements OnInit {
   }
 
   private async getMagicSet(): Promise<string | undefined> {
-    const res = await this.magicTcgService.getMagicSets();
-    const filteredSet = res.data.find(set => set.id === this.magicSetId);
-    return filteredSet?.search_uri
+    this.magicStoreService.retriveMagicSets().subscribe(data => {
+      this.filteredSet = data.find(set => set.id === this.magicSetId);
+    })
+
+    if (!this.filteredSet) {
+      const res = await this.magicTcgService.getMagicSets();
+      this.magicStoreService.setMagicSets(res);
+      this.magicStoreService.retriveMagicSets().subscribe(data => {
+        this.filteredSet = data.find(set => set.id === this.magicSetId);
+      });
+    }
+    return this.filteredSet?.search_uri
   }
 
   private async getCards(): Promise<void> {
@@ -82,5 +95,21 @@ export class CardComponent implements OnInit {
 
   protected goBack(): Promise<boolean> {
     return this.router.navigate([`magic`]);
+  }
+
+  protected async onSearchByAuthor(artist: string): Promise<void> {
+    const res = await this.magicTcgService.getMagicCardsByArtist(artist);
+    const uniqueCards: MagicCard[] = [];
+    const seenIds = new Set();
+
+    for (const card of res.data) {
+      if (!seenIds.has(card.name)) {
+        uniqueCards.push(card);
+        seenIds.add(card.name);
+      }
+    }
+
+    this.cards = uniqueCards;
+    this.updateDisplayedCards();
   }
 }

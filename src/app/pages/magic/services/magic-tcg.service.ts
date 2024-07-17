@@ -4,6 +4,7 @@ import {firstValueFrom} from "rxjs";
 import {plainToInstance} from "class-transformer";
 import {MagicSetsModel} from "../models/magic-sets.model";
 import {MagicCardListModel} from "../models/magic-card-list.model";
+import {MagicArtistModel} from "../models/magic-artists.model";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,19 @@ export class MagicTcgService {
     const get$ = this.http.get<MagicCardListModel>(url);
     const res = firstValueFrom(get$);
     return plainToInstance(MagicCardListModel, res);
+  }
+
+  async getMagicCardsByArtist(artistName: string): Promise<MagicCardListModel> {
+    const url = `${this.baseUrl}/cards/search?q=artist%3A%22${artistName}%22`
+    const get$ = this.http.get<MagicCardListModel>(url);
+    const res = firstValueFrom(get$);
+    return plainToInstance(MagicCardListModel, res);
+  }
+
+  async getMagicArtist(): Promise<MagicArtistModel> {
+    const url = `${this.baseUrl}/catalog/artist-names`
+    const get$ = this.http.get<MagicArtistModel>(url);
+    const res = firstValueFrom(get$);
+    return plainToInstance(MagicArtistModel, res);
   }
 }
