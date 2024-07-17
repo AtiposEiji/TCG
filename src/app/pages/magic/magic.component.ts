@@ -17,9 +17,7 @@ import {take} from "rxjs";
 })
 export class MagicComponent implements OnInit {
   protected searchTermSet: string = '';
-  protected searchArtist: string = '';
   protected magicSets?: MagicSetModel[];
-  protected artists?: string[];
   private readonly magicTcgService = inject(MagicTcgService);
   private readonly magicStoreService = inject(MagicStoreService);
   private readonly router = inject(Router);
@@ -30,8 +28,7 @@ export class MagicComponent implements OnInit {
 
   private async initData(): Promise<void[]> {
     return Promise.all([
-      this.getMagicSets(),
-      this.getMagicArtists()
+      this.getMagicSets()
     ])
   }
 
@@ -47,18 +44,6 @@ export class MagicComponent implements OnInit {
     }
   }
 
-  private async getMagicArtists(): Promise<void> {
-    this.magicStoreService.retriveMagicArtists().pipe(take(1)).subscribe(data => {
-      this.artists = data;
-    });
-
-    if (!this.artists || this.artists.length === 0) {
-      const res = await this.magicTcgService.getMagicArtist();
-      this.magicStoreService.setMagicArtists(res);
-      this.magicStoreService.retriveMagicArtists().subscribe(data => this.artists = data);
-    }
-  }
-
   protected onCardClick(set: MagicSetModel): Promise<boolean> {
     return this.router.navigate([`magic/set/${set.id}`]);
   }
@@ -69,9 +54,5 @@ export class MagicComponent implements OnInit {
 
   protected onFilter(set: MagicSetModel, searchTerm: string): boolean {
     return set.name.toLowerCase().includes(searchTerm.toLowerCase())
-  }
-
-  protected onArtistFilter(artist: string, searchArtist: string): boolean {
-    return artist.toLowerCase().includes(searchArtist.toLowerCase())
   }
 }
