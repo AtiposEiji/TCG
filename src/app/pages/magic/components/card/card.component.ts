@@ -40,6 +40,9 @@ export class CardComponent implements OnInit {
 
   private async getMagicSet(): Promise<string | undefined> {
     this.magicStoreService.retriveMagicSets().subscribe(data => {
+      if(!data) {
+        return;
+      }
       this.filteredSet = data.find(set => set.id === this.magicSetId);
     })
 
