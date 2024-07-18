@@ -34,6 +34,9 @@ export class MagicComponent implements OnInit {
 
   private async getMagicSets(): Promise<void> {
     this.magicStoreService.retriveMagicSets().pipe(take(1)).subscribe(data => {
+      if(!data) {
+        return;
+      }
       this.magicSets = data;
     });
 
