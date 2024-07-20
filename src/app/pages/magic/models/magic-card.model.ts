@@ -1,4 +1,5 @@
-import {MagicImagesUrlModel} from "./magic-images-url.model";
+import {MagicImagesUrlModel} from './magic-images-url.model';
+import {MagicCardPricesModel} from './magic-card-prices.model';
 
 export class MagicCard {
   artist?: string;
@@ -9,6 +10,6 @@ export class MagicCard {
   illustration_id!: string;
   image_uris?: MagicImagesUrlModel;
   name!: string;
-  prices!: number;
+  prices!: MagicCardPricesModel;
   variation!: boolean;
 }

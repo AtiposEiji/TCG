@@ -109,4 +109,8 @@ export class CardComponent implements OnInit {
     this.cards = uniqueCards;
     this.updateDisplayedCards();
   }
+
+  protected onCardClick(card: MagicCard): void {
+
+  }
 }
