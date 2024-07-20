@@ -12,8 +12,13 @@
         @if(card.artist) {
           <div (click)="onSearchByAuthor(card.artist)"
                class="cursor-pointer hover:text-primary-600">
-            {{ card.artist }}
-            {{card.prices.eur}}
+            <p>Artist: {{ card.artist }}</p>
+            @if(card.prices.eur || card.prices.eur_foil) {
+              <div class="grid">
+                <p>euro: {{card.prices.eur}}</p>
+                <p>foil euro: {{card.prices.eur_foil}}</p>
+              </div>
+            }
           </div>
         }
       </div>
