@@ -10,4 +10,7 @@ export const routes: Routes = [{
 }, {
   path: "magic",
   loadChildren: () => import('./pages/magic/routes').then(r => r.routes)
+}, {
+  path: "pokemon",
+  loadChildren: () => import('./pages/pokemon/routes').then(r => r.routes)
 }];
