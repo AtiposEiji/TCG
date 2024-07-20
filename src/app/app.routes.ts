@@ -9,8 +9,5 @@ export const routes: Routes = [{
   loadComponent: () => import('./pages/dashboard/dashboard.component').then(c => c.DashboardComponent)
 }, {
   path: "magic",
-  loadComponent: () => import('./pages/magic/magic.component').then(c => c.MagicComponent),
-}, {
-    path: "magic/set/:magicSetId",
-    loadComponent: () => import("./pages/magic/components/card/card.component").then(c => c.CardComponent)
+  loadChildren: () => import('./pages/magic/routes').then(r => r.routes)
 }];

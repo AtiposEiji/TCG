@@ -1,9 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {MagicTcgService} from "../../services/magic-tcg.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MagicCard} from "../../models/magic-card.model";
-import {MagicStoreService} from "../../services/magic-store.service";
-import {MagicSetModel} from "../../models/magic-set.model";
+import {Component, inject, Input, OnInit} from '@angular/core';
+import {MagicTcgService} from '../../services/magic-tcg.service';
+import {Router} from '@angular/router';
+import {MagicCard} from '../../models/magic-card.model';
+import {MagicStoreService} from '../../services/magic-store.service';
+import {MagicSetModel} from '../../models/magic-set.model';
 
 @Component({
   selector: 'app-card',
@@ -13,21 +13,15 @@ import {MagicSetModel} from "../../models/magic-set.model";
   styleUrl: './card.component.scss'
 })
 export class CardComponent implements OnInit {
+  @Input() magicSetId!: string;
   protected displayedCards?: MagicCard[];
-  protected magicSetId!: string | null;
   private cards?: MagicCard[];
   private searchURI?: string;
   private currentIndex: number = 0;
   private filteredSet?: MagicSetModel;
   private readonly magicStoreService = inject(MagicStoreService);
   private readonly magicTcgService = inject(MagicTcgService);
-  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
-
-
-  constructor() {
-    this.magicSetId = this.activatedRoute.snapshot.paramMap.get('magicSetId');
-  }
 
   ngOnInit(): void {
     this.initData().then();

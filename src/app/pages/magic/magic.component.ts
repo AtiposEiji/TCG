@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {FormsModule} from "@angular/forms";
-import {MagicSetModel} from "./models/magic-set.model";
-import {MagicTcgService} from "./services/magic-tcg.service";
-import {MagicStoreService} from "./services/magic-store.service";
-import {take} from "rxjs";
+import {Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {MagicSetModel} from './models/magic-set.model';
+import {MagicTcgService} from './services/magic-tcg.service';
+import {MagicStoreService} from './services/magic-store.service';
+import {take} from 'rxjs';
 
 @Component({
   selector: 'app-magic',
@@ -47,7 +47,7 @@ export class MagicComponent implements OnInit {
     }
   }
 
-  protected onCardClick(set: MagicSetModel): Promise<boolean> {
+  protected onSetClick(set: MagicSetModel): Promise<boolean> {
     return this.router.navigate([`magic/set/${set.id}`]);
   }
 
