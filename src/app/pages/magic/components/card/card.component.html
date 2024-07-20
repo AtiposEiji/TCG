@@ -15,8 +15,12 @@
             <p>Artist: {{ card.artist }}</p>
             @if(card.prices.eur || card.prices.eur_foil) {
               <div class="grid">
-                <p>euro: {{card.prices.eur}}</p>
-                <p>foil euro: {{card.prices.eur_foil}}</p>
+                @if (card.prices.eur) {
+                  <p>euro: {{ card.prices.eur }}</p>
+                }
+                @if (card.prices.eur_foil) {
+                  <p>foil euro: {{ card.prices.eur_foil }}</p>
+                }
               </div>
             }
           </div>
